@@ -1,0 +1,2 @@
+fetchers:
+  config_dir: "./config/fetchers/"

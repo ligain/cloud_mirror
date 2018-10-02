@@ -1,0 +1,3 @@
+# time interval between attempts to get metadata from cloud
+interval: 5.0
+cloud_fetcher: "modules.dropbox.cloud_fetcher.DropboxFetcher"
