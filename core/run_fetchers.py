@@ -6,15 +6,14 @@ from pathlib import PurePosixPath, Path
 from importlib import import_module
 
 from core.utils import setup_logging
+from core.settings import config
 
 
-def get_fetchers_conf_files(global_conf_file=None):
-    if not global_conf_file:
-        logging.error('You should specify path to global config')
+def get_fetchers_conf_files(global_conf=None):
+    if not global_conf:
+        logging.error('You should specify the global config')
         return
 
-    with open(global_conf_file) as f:
-        global_conf = yaml.load(f)
     fetchers_conf = global_conf.get('fetchers')
     if not fetchers_conf:
         logging.error('Fetchers config dir was not found in global config')
@@ -48,7 +47,7 @@ if __name__ == '__main__':
     setup_logging()
 
     global_conf = os.getenv('GLOBAL_CONF', './config/global.yml')
-    fetchers_conf_files = get_fetchers_conf_files(global_conf)
+    fetchers_conf_files = get_fetchers_conf_files(config)
     if fetchers_conf_files is None:
         exit(1)
 

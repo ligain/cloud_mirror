@@ -9,5 +9,4 @@ class GoogleDriveFetcher:
     async def run(self):
         while True:
             logging.info("fetcher for google drive is working")
-            raise RuntimeError
             await asyncio.sleep(self.interval)

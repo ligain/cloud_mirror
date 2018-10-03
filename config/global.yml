@@ -1,2 +1,4 @@
 fetchers:
   config_dir: "./config/fetchers/"
+host: "localhost"
+port: 8080

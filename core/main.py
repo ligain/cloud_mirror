@@ -1,17 +1,24 @@
+import aiohttp_jinja2
+import jinja2
 from aiohttp import web
-
-
-async def index(request):
-    return web.Response(text="Welcome home!")
+from core.routes import urls
+from core.settings import config
 
 
 async def create_app():
     app = web.Application()
-    app.router.add_get('/', index)
+    app.add_routes(urls)
+    app['config'] = config
+    aiohttp_jinja2.setup(
+        app, loader=jinja2.PackageLoader('core', 'templates'))
+    app['static_root_url'] = '/static'
     return app
 
 
 if __name__ == '__main__':
-    app = web.Application()
-    app.router.add_get('/', index)
-    web.run_app(app, host='localhost', port=8080)
+    app = create_app()
+    web.run_app(
+        app,
+        host=config.get('host', ''),
+        port=config.get('port', 8080),
+    )
