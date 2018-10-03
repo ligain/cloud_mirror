@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 
 class DropboxFetcher:
@@ -7,5 +8,5 @@ class DropboxFetcher:
 
     async def run(self):
         while True:
-            print("fetcher for dropbox is working")
+            logging.info("fetcher for dropbox is working")
             await asyncio.sleep(self.interval)

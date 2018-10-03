@@ -1,0 +1,44 @@
+version: '2'
+
+
+services:
+  db:
+    image: postgres:9.6
+    expose:
+      - 5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cloud_mirror
+
+  nginx:
+    image: nginx:1.14
+    volumes:
+     - ./config/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+     - "80:80"
+    command: /bin/bash -c "nginx -g 'daemon off;'"
+    links:
+      - web
+
+  web:
+    build:
+      context: .
+      dockerfile: web.dockerfile
+    expose:
+      - "8080"
+    depends_on:
+      - db
+
+  fetchers:
+    build:
+      context: .
+      dockerfile: fetchers.dockerfile
+    depends_on:
+      - web
+      - db
+
+volumes:
+  pg_data: {}

@@ -59,6 +59,7 @@ if __name__ == '__main__':
             fetchers.append(fc)
     logging.info(f'fetcher_coros: {fetchers}')
 
-    asyncio.run(
-        asyncio.wait([f.run() for f in fetchers])
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(
+        asyncio.gather(*[f.run() for f in fetchers], return_exceptions=True)
     )

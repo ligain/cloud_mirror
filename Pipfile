@@ -9,6 +9,6 @@ verify_ssl = true
 python_version = "3.7"
 
 [packages]
-aiohttp = "*"
+aiohttp = "==3.4.4"
 gunicorn = "*"
 pyyaml = "*"

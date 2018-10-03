@@ -10,6 +10,7 @@ async def create_app():
     app.router.add_get('/', index)
     return app
 
+
 if __name__ == '__main__':
     app = web.Application()
     app.router.add_get('/', index)
