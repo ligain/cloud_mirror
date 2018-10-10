@@ -8,5 +8,6 @@ RUN pip3 install pipenv && set -ex && pipenv install --deploy --system
 
 EXPOSE 8080
 
+RUN python3.7 init_db.py
 ENTRYPOINT gunicorn -c ./config/gunicorn.py main:create_app
 

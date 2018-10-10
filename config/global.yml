@@ -1,4 +1,12 @@
+# Sample config for local use
+
 fetchers:
   config_dir: "./config/fetchers/"
 host: "localhost"
 port: 8080
+db:
+  host: "db"
+  port: "5432"
+  database: "cloud_mirror"
+  user: "postgres"
+  password: "postgres"

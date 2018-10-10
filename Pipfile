@@ -13,3 +13,4 @@ aiohttp = "==3.4.4"
 gunicorn = "*"
 pyyaml = "*"
 "aiohttp-jinja2" = "*"
+aiopg = {version = "*", extras = ["sa"]}
