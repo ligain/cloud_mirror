@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0a08eb326f05f68138651948b1d347ad37365448042adf50999ec5c362b2da39"
+            "sha256": "593ee2ac5ccadc392bedee0021b75188db1db40a0a38635461de08ab1b9809db"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -218,5 +218,14 @@
             "version": "==1.2.6"
         }
     },
-    "develop": {}
+    "develop": {
+        "aioreloader": {
+            "hashes": [
+                "sha256:1dbea9e16f9b5e943cf83861aa00e479fea0ad7b5dfb5e58570bbbc66c3db92b",
+                "sha256:763fe2a415652a828c144cf1e4e0a79a59022f94dfc0b5193b3284c44df9bb15"
+            ],
+            "index": "pypi",
+            "version": "==0.2.0"
+        }
+    }
 }

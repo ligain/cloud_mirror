@@ -27,7 +27,6 @@ async def init_db(app):
     db_conf = app['config']['db']
     engine = await create_engine(**db_conf)
     app['db'] = engine
-    # await create_tables(engine, [user])
 
 
 async def close_db(app):

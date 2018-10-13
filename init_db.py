@@ -18,5 +18,6 @@ if __name__ == '__main__':
     engine = create_engine(db_uri)
     try:
         create_tables(engine=engine, tables=tables_to_create)
-    except OperationalError:
+    except OperationalError as e:
+        print(f'Error: {e} on connection to DB. Sleep for {timeout} sec')
         sleep(timeout)   # sleep till time when docker connect db
