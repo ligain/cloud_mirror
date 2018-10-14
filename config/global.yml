@@ -10,3 +10,5 @@ db:
   database: "cloud_mirror"
   user: "postgres"
   password: "postgres"
+static_root_url: '/static'
+secret_key: 'Thirty  two  length  bytes  key.'

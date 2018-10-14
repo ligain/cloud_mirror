@@ -1,21 +1,30 @@
 import argparse
-
 import aiohttp_jinja2
+import aiohttp_session
 import jinja2
 from aiohttp import web
+from aiohttp_session.cookie_storage import EncryptedCookieStorage
+
 from core.routes import urls
 from core.settings import config
-
 from core import db
+from core.middlewares import user_auth_middleware
 
 
 async def create_app():
-    app = web.Application()
+    app = web.Application(
+        middlewares=[
+            aiohttp_session.session_middleware(
+                EncryptedCookieStorage(config['secret_key'].encode())
+            ),
+            user_auth_middleware,
+        ]
+    )
     app.add_routes(urls)
     app['config'] = config
     aiohttp_jinja2.setup(
         app, loader=jinja2.PackageLoader('core', 'templates'))
-    app['static_root_url'] = '/static'
+    app['static_root_url'] = config['static_root_url']
     app.on_startup.append(db.init_db)
     app.on_cleanup.append(db.close_db)
     return app

@@ -15,3 +15,5 @@ gunicorn = "*"
 pyyaml = "*"
 "aiohttp-jinja2" = "*"
 aiopg = {version = "*", extras = ["sa"]}
+aiohttp-session = "*"
+cryptography = "*"
