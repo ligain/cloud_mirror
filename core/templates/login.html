@@ -17,17 +17,16 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-title text-center">Sign In</h5>
-            <form class="form-signin">
-              <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
-              <button class="btn btn-lg btn-dropbox btn-block text-uppercase" type="submit"><i class="fab fa-dropbox mr-2"></i> Sign in with Dropbox</button>
-            </form>
+            <div class="signin">
+              <a href="{{google_drive_auth_url}}" class="btn btn-lg btn-google btn-block text-uppercase"><i class="fab fa-google mr-2"></i> Sign in with Google</a>
+              <!--<a href="#" class="btn btn-lg btn-dropbox btn-block text-uppercase"><i class="fab fa-dropbox mr-2"></i> Sign in with Dropbox</a>-->
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-<script src="{{ static('js/jquery.min.js') }}"></script>
 <script src="{{ static('js/jquery.min.js') }}"></script>
 
 </body>

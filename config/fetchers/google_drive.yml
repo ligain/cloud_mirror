@@ -1,3 +1,14 @@
 # time interval between attempts to get metadata from cloud
 interval: 1.0
 cloud_fetcher: "modules.google_drive.cloud_fetcher.GoogleDriveFetcher"
+
+# It's file with credentials for your OAuth 2.0 client
+# it creates here https://console.developers.google.com/apis/credentials
+# also you can use GOOGLE_DRIVE_CREDENTIALS_FILE env variable
+credentials_file: "path/to/credentials_file.json"
+
+# list of permissions for OAuth 2.0 client
+# https://developers.google.com/drive/api/v3/about-auth
+scopes:
+  - "https://www.googleapis.com/auth/drive.readonly"
+  - "https://www.googleapis.com/auth/userinfo.profile"

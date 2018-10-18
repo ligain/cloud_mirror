@@ -2,31 +2,10 @@ import os
 import logging
 import asyncio
 import yaml
-from pathlib import PurePosixPath, Path
 from importlib import import_module
 
 from core.utils import setup_logging
-from core.settings import config
-
-
-def get_fetchers_conf_files(global_conf=None):
-    if not global_conf:
-        logging.error('You should specify the global config')
-        return
-
-    fetchers_conf = global_conf.get('fetchers')
-    if not fetchers_conf:
-        logging.error('Fetchers config dir was not found in global config')
-        return
-
-    fetchers_path = Path(fetchers_conf.get('config_dir', '')).resolve()
-    fetchers_conf_dirs = os.listdir(fetchers_path)
-    if not fetchers_conf_dirs:
-        logging.error('Not fetchers configs was found')
-        return
-
-    for fetcher_conf_dir in fetchers_conf_dirs:
-        yield PurePosixPath(fetchers_path).joinpath(fetcher_conf_dir)
+from core.settings import config, get_modules_conf_files
 
 
 def get_fetcher(conf_filepath):
@@ -47,7 +26,7 @@ if __name__ == '__main__':
     setup_logging()
 
     global_conf = os.getenv('GLOBAL_CONF', './config/global.yml')
-    fetchers_conf_files = get_fetchers_conf_files(config)
+    fetchers_conf_files = get_modules_conf_files(config)
     if fetchers_conf_files is None:
         exit(1)
 

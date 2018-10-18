@@ -28,17 +28,21 @@ body {
   padding: 2rem;
 }
 
-.form-signin {
+.signin {
   width: 100%;
 }
 
-.form-signin .btn {
+.signin .btn {
   font-size: 80%;
   border-radius: 5rem;
   letter-spacing: .1rem;
   font-weight: bold;
   padding: 1rem;
   transition: all 0.2s;
+}
+
+.signin .btn:hover{
+  color: white;
 }
 
 .form-label-group {

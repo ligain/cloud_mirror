@@ -17,3 +17,8 @@ pyyaml = "*"
 aiopg = {version = "*", extras = ["sa"]}
 aiohttp-session = "*"
 cryptography = "*"
+pytest = "*"
+google-api-python-client = "*"
+"oauth2client" = "*"
+google-auth = "*"
+google-auth-oauthlib = "*"
