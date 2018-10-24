@@ -16,6 +16,11 @@ if __name__ == '__main__':
     timeout = 5
     db_uri = DSN.format(**config['db'])
     engine = create_engine(db_uri)
+
+    # add hstore extension
+    with engine.begin() as conn:
+        conn.execute("CREATE EXTENSION IF NOT EXISTS HSTORE;")
+
     try:
         create_tables(engine=engine, tables=tables_to_create)
     except OperationalError as e:

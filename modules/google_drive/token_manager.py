@@ -1,29 +1,32 @@
 import json
+from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 
 import httplib2
 
+from core.db import account
 from core.settings import MissingConfigFile
 from oauth2client import file, client, tools
 import google_auth_httplib2
+from google.oauth2.credentials import Credentials
 
 
+@dataclass
 class GoogleDriveTokenManager:
-    def __init__(self, credentials_file=None, scopes=None):
-        self.credentials_file = Path(credentials_file)
-        self.credentials = {}
-        self.scopes = scopes
+    access_token: str
+    refresh_token: str
+    expires: datetime
+    token_uri: str
+    # def __init__(self, access_token, refresh_token, expires, token_uri):
+    #     self.access_token = access_token
+    #     self.refresh_token = refresh_token
+    #     self.expires = expires
+    #     self.token_uri = token_uri
 
-    def get_credentials_from_file(self):
-        if not self.credentials_file.exists():
-            raise MissingConfigFile(f"Credential file: {self.credentials_file} "
-                                    "was not found")
-        store = file.Storage('./token.json')
-        flow = client.flow_from_clientsecrets(self.credentials_file,
-                                              self.scopes,
-                                              redirect_uri='http://localhost:8080/google-auth2-callback')
-        self.credentials = tools.run_flow(flow, store)
-        http = self.credentials.authorize(httplib2.Http())
+
+    # def __init__(self, credentials: Credentials):
+    #     self.credentials = credentials
 
     def get_tokens(self):
         pass
@@ -34,9 +37,11 @@ class GoogleDriveTokenManager:
     def refresh_access_token(self):
         pass
 
-    async def save_tokens_to_db(self, engine):
-        pass
+    async def save_tokens_to_db(self, db_engine):
+        async with db_engine.acquire() as conn:
+            await conn.execute(account.select())
 
 
 if __name__ == '__main__':
-    token_manager = GoogleDriveTokenManager()
+    pass
+    # token_manager = GoogleDriveTokenManager()

@@ -2,13 +2,18 @@ import logging
 
 import aiohttp_jinja2
 import google_auth_oauthlib
+import httplib2
 from aiohttp.web_exceptions import HTTPServerError, HTTPFound, HTTPBadRequest
 import google_auth_oauthlib.flow
 from aiohttp_session import get_session
+from google.auth.transport.requests import AuthorizedSession
+from googleapiclient.discovery import build
 from oauthlib.oauth2 import InvalidGrantError
 
+from core.db import User
 from core.utils import login_required
 from core.settings import google_drive_secrets_file, modules_config
+from modules.google_drive.token_manager import GoogleDriveTokenManager
 
 
 async def login(request):
@@ -48,19 +53,36 @@ async def google_drive_auth_callback(request):
         request.app.router['google_drive_auth_callback'].url_for()
     ).human_repr()
     authorization_response = request.url.human_repr()
+
     try:
         flow.fetch_token(authorization_response=authorization_response)
     except InvalidGrantError:
         logging.exception("Error on getting google drive token: ")
         raise HTTPBadRequest()
+
     credentials = flow.credentials
-    if credentials.valid:
-        # create user here
-        session['google_drive_credentials'] = {
-            'access_token': credentials.token
-        }
-        raise HTTPFound(request.app.router['main_page'].url_for())
-    raise HTTPBadRequest()
+    if not credentials.valid:
+        raise HTTPBadRequest()
+
+    # create user here
+    google_plus = build(
+        'plus', 'v1', credentials=credentials)
+    profile = google_plus.people().get(userId='me').execute()
+    user = User(
+        email=profile['emails'][0]['value'],
+        username=profile.get('displayName', ''),
+        profile_url=profile.get('url', ''),
+        avatar_url=profile.get('image', {}).get('url', '')
+    )
+    await user.save_to_db(request.app['db'])
+    session['userid'] = user.id
+    tm = GoogleDriveTokenManager(
+        access_token=credentials.token,
+        refresh_token=credentials.refresh_token,
+        expires=credentials.expiry,
+        token_uri=credentials.token_uri,
+    )
+    raise HTTPFound(request.app.router['main_page'].url_for())
 
 @login_required
 async def index(request):
