@@ -10,7 +10,7 @@ aioreloader = "*"
 python_version = "3.7"
 
 [packages]
-aiohttp = "==3.4.4"
+aiohttp = "==3.7.4"
 gunicorn = "*"
 pyyaml = "*"
 "aiohttp-jinja2" = "*"
